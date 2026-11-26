@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURELIA | Artisanal Jewelry & Modern Fashion</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cormorant Garamond & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: '#FAF8F5',
+                        sand: '#EFE9DE',
+                        espresso: '#1E1B18',
+                        bronze: '#8C6D53',
+                        gold: '#C5A059',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C7B9A5;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8C6D53;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-cream text-espresso font-sans antialiased selection:bg-espresso selection:text-cream">
+
+    <!-- Minimal Top Announcement Strip -->
+    <div class="bg-espresso text-cream/90 text-[11px] py-2 px-4 text-center tracking-[0.2em] uppercase">
+        Complimentary Shipping Above ₹1,999 — Code FIRST20
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="sticky top-0 z-40 bg-cream/95 backdrop-blur-sm border-b border-espresso/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="p-2 md:hidden text-espresso" aria-label="Menu">
+                    <i data-lucide="menu" class="w-5 h-5 stroke-[1.5]"></i>
+                </button>
+
+                <!-- Left Nav Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-xs uppercase tracking-[0.15em] text-espresso/70">
+                    <a href="#featured" class="hover:text-espresso transition">Catalog</a>
+                    <a href="#categories" class="hover:text-espresso transition">Collections</a>
+                    <button onclick="openOrdersModal()" class="hover:text-espresso transition underline underline-offset-4">
+                        Orders
+                    </button>
+                </nav>
+
+                <!-- Center Brand Wordmark -->
+                <a href="#" class="font-serif text-2xl sm:text-3xl tracking-[0.18em] font-normal text-espresso uppercase">
+                    Aurelia
+                </a>
+
+                <!-- Right Utility Actions -->
+                <div class="flex items-center gap-4 sm:gap-6">
+                    <div class="hidden lg:flex items-center border-b border-espresso/20 pb-1 focus-within:border-espresso transition">
+                        <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="Search..." class="bg-transparent border-none focus:outline-none text-xs w-36 text-espresso placeholder:text-espresso/40">
+                        <i data-lucide="search" class="w-3.5 h-3.5 text-espresso/50 stroke-[1.5]"></i>
+                    </div>
+
+                    <button onclick="openOrdersModal()" class="md:hidden text-xs uppercase tracking-wider underline underline-offset-4">
+                        Orders
+                    </button>
+
+                    <button onclick="toggleCartDrawer(true)" class="text-xs uppercase tracking-[0.15em] font-medium text-espresso hover:text-bronze transition flex items-center gap-1.5">
+                        <span>Bag</span>
+                        <span>(<span id="cart-count-badge">2</span>)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cream border-b border-espresso/10 px-6 py-4 space-y-3">
+            <input type="text" onkeyup="filterProducts(this.value)" placeholder="Search pieces..." class="w-full bg-transparent border-b border-espresso/20 py-2 text-xs focus:outline-none">
+            <div class="flex flex-col space-y-2.5 text-xs uppercase tracking-widest pt-2">
+                <a href="#featured" class="py-1">Catalog</a>
+                <a href="#categories" class="py-1">Collections</a>
+                <button onclick="openOrdersModal()" class="py-1 text-left underline underline-offset-4">Order Details</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         1. EDITORIAL HERO SECTION
+    =========================================== -->
+    <section class="border-b border-espresso/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                
+                <!-- Left Editorial Visual (7 cols) -->
+                <div class="lg:col-span-7 relative h-[400px] sm:h-[520px] overflow-hidden bg-sand group">
+                    <img id="hero-image" 
+                         src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=1400&q=85" 
+                         onerror="this.src='https://placehold.co/1200x800/EFE9DE/1E1B18?text=Timeless+Elegance'"
+                         alt="Timeless Elegance" 
+                         class="w-full h-full object-cover object-center transition-transform duration-1000 group-hover:scale-[1.02]">
+                    
+                    <!-- Slide Navigation Arrows -->
+                    <div class="absolute bottom-5 right-5 flex items-center gap-2">
+                        <button onclick="prevHeroSlide()" class="w-9 h-9 bg-cream/90 text-espresso flex items-center justify-center hover:bg-espresso hover:text-cream transition" aria-label="Previous">
+                            <i data-lucide="arrow-left" class="w-4 h-4 stroke-[1.5]"></i>
+                        </button>
+                        <button onclick="nextHeroSlide()" class="w-9 h-9 bg-cream/90 text-espresso flex items-center justify-center hover:bg-espresso hover:text-cream transition" aria-label="Next">
+                            <i data-lucide="arrow-right" class="w-4 h-4 stroke-[1.5]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Editorial Copy (5 cols) -->
+                <div class="lg:col-span-5 flex flex-col justify-center space-y-6 lg:pl-4">
+                    <span id="hero-tag" class="text-[11px] uppercase tracking-[0.22em] text-bronze">
+                        Handcrafted in Jaipur
+                    </span>
+                    
+                    <h1 id="hero-title" class="font-serif text-4xl sm:text-5xl lg:text-[52px] font-normal leading-[1.12] text-espresso">
+                        Timeless Elegance Collection
+                    </h1>
+                    
+                    <p id="hero-desc" class="text-espresso/65 text-sm leading-relaxed max-w-md font-light">
+                        Heirloom 18k gold-vermeil pieces and hand-loomed silhouettes made in small studio batches.
+                    </p>
+                    
+                    <div class="pt-2 flex items-center gap-6">
+                        <a href="#featured" class="bg-espresso text-cream px-8 py-3.5 text-xs uppercase tracking-[0.18em] hover:bg-bronze transition">
+                            Explore Edit
+                        </a>
+                        <button onclick="toggleCartDrawer(true)" class="text-xs uppercase tracking-[0.15em] text-espresso border-b border-espresso pb-1 hover:text-bronze hover:border-bronze transition">
+                            Checkout
+                        </button>
+                    </div>
+
+                    <!-- Slide Indicator Lines -->
+                    <div class="pt-8 flex items-center gap-3">
+                        <button onclick="setHeroSlide(0)" class="hero-dot w-8 h-[1.5px] bg-espresso transition-all"></button>
+                        <button onclick="setHeroSlide(1)" class="hero-dot w-4 h-[1.5px] bg-espresso/25 hover:bg-espresso transition-all"></button>
+                        <button onclick="setHeroSlide(2)" class="hero-dot w-4 h-[1.5px] bg-espresso/25 hover:bg-espresso transition-all"></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hairline Promo Strip -->
+            <div class="grid grid-cols-1 md:grid-cols-3 border-t border-b border-espresso/10 mt-10 divide-y md:divide-y-0 md:divide-x divide-espresso/10">
+                <div class="py-4 md:px-6 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-medium text-espresso">20% Off First Order</p>
+                        <p class="text-[11px] text-espresso/50">Orders above ₹1,499</p>
+                    </div>
+                    <button onclick="copyCoupon('FIRST20')" class="text-[11px] uppercase tracking-widest border border-espresso/20 px-3 py-1.5 hover:bg-espresso hover:text-cream transition">
+                        FIRST20
+                    </button>
+                </div>
+
+                <div class="py-4 md:px-6 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-medium text-espresso">Flat ₹500 Privilege</p>
+                        <p class="text-[11px] text-espresso/50">On any 2 studio pieces</p>
+                    </div>
+                    <button onclick="copyCoupon('FESTIVE500')" class="text-[11px] uppercase tracking-widest border border-espresso/20 px-3 py-1.5 hover:bg-espresso hover:text-cream transition">
+                        FESTIVE500
+                    </button>
+                </div>
+
+                <div class="py-4 md:px-6 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-medium text-espresso">Complimentary Pearl Charm</p>
+                        <p class="text-[11px] text-espresso/50">Orders above ₹4,999</p>
+                    </div>
+                    <button onclick="copyCoupon('LUXEGIFT')" class="text-[11px] uppercase tracking-widest border border-espresso/20 px-3 py-1.5 hover:bg-espresso hover:text-cream transition">
+                        LUXEGIFT
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         2. ARTISANAL FINDS / PRODUCT GRID
+    =========================================== -->
+    <section id="featured" class="max-w-7xl mx-auto px-4 sm:px-8 py-16">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 pb-4 border-b border-espresso/10">
+            <div>
+                <h2 class="font-serif text-3xl sm:text-4xl font-normal text-espresso">Artisanal Finds</h2>
+            </div>
+
+            <!-- Category Filter Tabs -->
+            <div class="flex items-center gap-6 overflow-x-auto no-scrollbar">
+                <button onclick="filterByCategory('all')" class="cat-pill text-xs uppercase tracking-[0.15em] pb-1 border-b border-espresso text-espresso font-medium transition">All</button>
+                <button onclick="filterByCategory('jewelry')" class="cat-pill text-xs uppercase tracking-[0.15em] pb-1 border-b border-transparent text-espresso/50 hover:text-espresso transition">Jewelry</button>
+                <button onclick="filterByCategory('fashion')" class="cat-pill text-xs uppercase tracking-[0.15em] pb-1 border-b border-transparent text-espresso/50 hover:text-espresso transition">Attire</button>
+                <button onclick="filterByCategory('decor')" class="cat-pill text-xs uppercase tracking-[0.15em] pb-1 border-b border-transparent text-espresso/50 hover:text-espresso transition">Objects</button>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+            <!-- Populated dynamically via JavaScript -->
+        </div>
+    </section>
+
+    <!-- ==========================================
+         3. SHOP BY CATEGORIES
+    =========================================== -->
+    <section id="categories" class="py-16 border-t border-espresso/10 bg-sand/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8">
+            <div class="flex items-baseline justify-between mb-10">
+                <h2 class="font-serif text-3xl sm:text-4xl font-normal text-espresso">Collections</h2>
+                <a href="#featured" class="text-xs uppercase tracking-[0.15em] text-espresso/70 hover:text-espresso underline underline-offset-4">
+                    View Catalog
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <div onclick="filterByCategory('jewelry'); document.getElementById('featured').scrollIntoView();" class="md:col-span-6 relative h-80 sm:h-[420px] overflow-hidden cursor-pointer group bg-sand">
+                    <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=900&q=80" 
+                         onerror="this.src='https://placehold.co/800x600/8C6D53/FFFFFF?text=Heirloom+Necklaces'"
+                         alt="Heirloom Necklaces" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-espresso/60 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 text-cream">
+                        <span class="text-[10px] uppercase tracking-[0.2em] text-cream/80">Jaipur Karigari</span>
+                        <h3 class="font-serif text-3xl font-normal mt-1">Heirloom Necklaces</h3>
+                    </div>
+                </div>
+
+                <div class="md:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div onclick="filterByCategory('fashion'); document.getElementById('featured').scrollIntoView();" class="relative h-80 sm:h-[420px] overflow-hidden cursor-pointer group bg-sand">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=80" 
+                             onerror="this.src='https://placehold.co/600x800/EFE9DE/1E1B18?text=Resort+Tunics'"
+                             alt="Contemporary Tunics" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-espresso/60 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-cream">
+                            <h3 class="font-serif text-2xl font-normal">Resort Tunics</h3>
+                        </div>
+                    </div>
+
+                    <div onclick="filterByCategory('decor'); document.getElementById('featured').scrollIntoView();" class="relative h-80 sm:h-[420px] overflow-hidden cursor-pointer group bg-sand">
+                        <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=700&q=80" 
+                             onerror="this.src='https://placehold.co/600x800/8C6D53/FFFFFF?text=Stoneware'"
+                             alt="Minimal Ceramics" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-espresso/60 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-cream">
+                            <h3 class="font-serif text-2xl font-normal">Minimal Stoneware</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         4. STUDIO NOTE & ORDER LOOKUP
+    =========================================== -->
+    <section id="spotlight" class="max-w-7xl mx-auto px-4 sm:px-8 py-16">
+        <div class="border border-espresso/10 grid grid-cols-1 lg:grid-cols-12 items-center bg-white">
+            <div class="lg:col-span-6 h-72 sm:h-96">
+                <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=1000&q=80" 
+                     onerror="this.src='https://placehold.co/900x700/1E1B18/C5A059?text=Studio+Craft'"
+                     alt="Studio Craft" class="w-full h-full object-cover">
+            </div>
+            <div class="lg:col-span-6 p-8 sm:p-14 space-y-5">
+                <span class="text-[11px] uppercase tracking-[0.22em] text-bronze">The Atelier</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-normal leading-tight">Crafted Slow, Worn Forever</h2>
+                <p class="text-espresso/65 text-sm leading-relaxed font-light">
+                    Every piece is cast, hammered, and hand-finished by third-generation karigars in our Jaipur and Khurja workshops.
+                </p>
+                <div class="pt-2">
+                    <button onclick="openOrdersModal()" class="border border-espresso text-espresso px-6 py-3 text-xs uppercase tracking-[0.15em] hover:bg-espresso hover:text-cream transition">
+                        View Order & Tracking
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Minimal Footer -->
+    <footer class="border-t border-espresso/10 pt-14 pb-10 bg-cream text-espresso/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-espresso/10">
+                <div class="space-y-3">
+                    <span class="font-serif text-2xl tracking-[0.18em] uppercase text-espresso">Aurelia</span>
+                    <p class="text-xs leading-relaxed text-espresso/60 font-light">
+                        14, Meharchand Market, Lodhi Colony, New Delhi<br>
+                        Tue – Sun, 11:00 AM – 8:00 PM
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-[11px] uppercase tracking-[0.18em] text-espresso font-medium mb-4">Catalog</h4>
+                    <ul class="space-y-2 text-xs font-light">
+                        <li><a href="#featured" class="hover:text-espresso">Fine Jewelry</a></li>
+                        <li><a href="#featured" class="hover:text-espresso">Contemporary Attire</a></li>
+                        <li><a href="#featured" class="hover:text-espresso">Stoneware Objects</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[11px] uppercase tracking-[0.18em] text-espresso font-medium mb-4">Client Services</h4>
+                    <ul class="space-y-2 text-xs font-light">
+                        <li><button onclick="openOrdersModal()" class="hover:text-espresso">Order Details & Tracking</button></li>
+                        <li><button onclick="toggleCartDrawer(true)" class="hover:text-espresso">Shopping Bag</button></li>
+                        <li><a href="#" class="hover:text-espresso">Returns & Exchanges</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[11px] uppercase tracking-[0.18em] text-espresso font-medium mb-4">Newsletter</h4>
+                    <form onsubmit="event.preventDefault(); showToast('Subscribed to studio updates.'); this.reset();" class="flex border-b border-espresso/30 pb-1.5">
+                        <input type="email" required placeholder="Email address" class="bg-transparent text-xs text-espresso placeholder:text-espresso/40 focus:outline-none w-full">
+                        <button type="submit" class="text-[11px] uppercase tracking-widest text-espresso font-medium hover:text-bronze">Join</button>
+                    </form>
+                </div>
+            </div>
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-espresso/50 gap-4">
+                <p>© 2026 Aurelia Studio. New Delhi.</p>
+                <p>UPI • Cards • NetBanking • Cash on Delivery</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         5. SLIDE-OVER CART & CHECKOUT SECTION
+    =========================================== -->
+    <div id="cart-overlay" class="fixed inset-0 z-50 hidden">
+        <div onclick="toggleCartDrawer(false)" class="absolute inset-0 bg-espresso/40 backdrop-blur-[2px] transition-opacity"></div>
+        
+        <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-cream shadow-2xl flex flex-col justify-between overflow-hidden animate-fade-in border-l border-espresso/10">
+            
+            <!-- Drawer Header -->
+            <div class="p-6 border-b border-espresso/10">
+                <div class="flex items-center justify-between">
+                    <h2 id="drawer-title" class="font-serif text-2xl font-normal text-espresso">Shopping Bag</h2>
+                    <button onclick="toggleCartDrawer(false)" class="p-1.5 text-espresso/60 hover:text-espresso transition">
+                        <i data-lucide="x" class="w-5 h-5 stroke-[1.5]"></i>
+                    </button>
+                </div>
+
+                <!-- 2-Step Checkout Navigation -->
+                <div class="flex items-center gap-6 mt-5 border-b border-espresso/10 text-xs uppercase tracking-[0.15em]">
+                    <button onclick="switchCheckoutStep('bag')" id="step-tab-bag" class="pb-2.5 border-b border-espresso text-espresso font-medium transition">
+                        01. Bag
+                    </button>
+                    <button onclick="switchCheckoutStep('checkout')" id="step-tab-checkout" class="pb-2.5 border-b border-transparent text-espresso/45 transition">
+                        02. Checkout
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 1: BAG ITEMS VIEW -->
+            <div id="step-bag-view" class="flex-1 overflow-y-auto p-6 space-y-6">
+                <div id="cart-items-container" class="divide-y divide-espresso/10">
+                    <!-- Dynamic Cart Items -->
+                </div>
+
+                <!-- Promo Code Input -->
+                <div class="pt-4 border-t border-espresso/10">
+                    <div class="flex gap-2 border-b border-espresso/25 pb-1.5">
+                        <input type="text" id="coupon-input" placeholder="Promo code (e.g. FIRST20)" class="flex-1 bg-transparent text-xs uppercase tracking-wider focus:outline-none">
+                        <button onclick="applyPromoCode()" class="text-xs uppercase tracking-widest font-medium text-espresso hover:text-bronze">Apply</button>
+                    </div>
+                    <p id="coupon-feedback" class="text-[11px] mt-1.5 hidden"></p>
+                </div>
+            </div>
+
+            <!-- STEP 2: CHECKOUT FORM VIEW -->
+            <form id="step-checkout-view" onsubmit="placeOrder(event)" class="hidden flex-1 overflow-y-auto p-6 space-y-6">
+                <div class="space-y-4">
+                    <h3 class="text-[11px] uppercase tracking-[0.2em] text-bronze">Shipping Details</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[11px] text-espresso/60">Full Name</label>
+                            <input type="text" id="cust-name" required value="Aarav Sharma" class="w-full mt-1 bg-white border border-espresso/15 px-3 py-2 text-xs focus:outline-none focus:border-espresso">
+                        </div>
+                        <div>
+                            <label class="text-[11px] text-espresso/60">Phone</label>
+                            <input type="tel" id="cust-phone" required value="+91 98765 43210" class="w-full mt-1 bg-white border border-espresso/15 px-3 py-2 text-xs focus:outline-none focus:border-espresso">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-[11px] text-espresso/60">Address</label>
+                        <input type="text" id="cust-address" required value="B-42, Greater Kailash Part II" class="w-full mt-1 bg-white border border-espresso/15 px-3 py-2 text-xs focus:outline-none focus:border-espresso">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[11px] text-espresso/60">City</label>
+                            <input type="text" id="cust-city" required value="New Delhi" class="w-full mt-1 bg-white border border-espresso/15 px-3 py-2 text-xs focus:outline-none focus:border-espresso">
+                        </div>
+                        <div>
+                            <label class="text-[11px] text-espresso/60">PIN Code</label>
+                            <input type="text" id="cust-pin" required value="110048" class="w-full mt-1 bg-white border border-espresso/15 px-3 py-2 text-xs focus:outline-none focus:border-espresso">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-4 border-t border-espresso/10">
+                    <h3 class="text-[11px] uppercase tracking-[0.2em] text-bronze">Payment Method</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center justify-between p-3 border border-espresso/15 bg-white cursor-pointer hover:border-espresso transition">
+                            <div class="flex items-center gap-3">
+                                <input type="radio" name="paymentMethod" value="UPI Instant Pay" checked class="accent-espresso">
+                                <span class="text-xs font-medium text-espresso">UPI / GPay / PhonePe</span>
+                            </div>
+                        </label>
+
+                        <label class="flex items-center justify-between p-3 border border-espresso/15 bg-white cursor-pointer hover:border-espresso transition">
+                            <div class="flex items-center gap-3">
+                                <input type="radio" name="paymentMethod" value="Credit / Debit Card" class="accent-espresso">
+                                <span class="text-xs font-medium text-espresso">Credit / Debit Card</span>
+                            </div>
+                        </label>
+
+                        <label class="flex items-center justify-between p-3 border border-espresso/15 bg-white cursor-pointer hover:border-espresso transition">
+                            <div class="flex items-center gap-3">
+                                <input type="radio" name="paymentMethod" value="Cash on Delivery" class="accent-espresso">
+                                <span class="text-xs font-medium text-espresso">Cash on Delivery</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Drawer Footer -->
+            <div class="p-6 border-t border-espresso/10 bg-sand/30 space-y-4">
+                <div class="space-y-1.5 text-xs">
+                    <div class="flex justify-between text-espresso/65">
+                        <span>Subtotal</span>
+                        <span id="summary-subtotal" class="text-espresso">₹0</span>
+                    </div>
+                    <div class="flex justify-between text-espresso/65">
+                        <span>Shipping</span>
+                        <span id="summary-shipping" class="text-espresso">Complimentary</span>
+                    </div>
+                    <div id="discount-row" class="hidden flex justify-between text-bronze">
+                        <span>Discount</span>
+                        <span id="summary-discount">-₹0</span>
+                    </div>
+                    <div class="flex justify-between text-sm font-medium text-espresso pt-2.5 border-t border-espresso/10">
+                        <span class="uppercase tracking-wider text-xs">Total</span>
+                        <span id="summary-total" class="font-serif text-xl">₹0</span>
+                    </div>
+                </div>
+
+                <div id="bag-footer-btn">
+                    <button onclick="switchCheckoutStep('checkout')" id="proceed-checkout-btn" class="w-full bg-espresso text-cream py-3.5 text-xs uppercase tracking-[0.18em] hover:bg-bronze transition">
+                        Proceed to Checkout
+                    </button>
+                </div>
+
+                <div id="checkout-footer-btn" class="hidden flex gap-3">
+                    <button type="button" onclick="switchCheckoutStep('bag')" class="px-5 py-3.5 border border-espresso/20 text-xs uppercase tracking-wider hover:border-espresso transition">
+                        Back
+                    </button>
+                    <button type="submit" form="step-checkout-view" class="flex-1 bg-espresso text-cream py-3.5 text-xs uppercase tracking-[0.18em] hover:bg-bronze transition">
+                        Place Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         6. ORDER DETAILS & TRACKING MODAL
+    =========================================== -->
+    <div id="orders-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeOrdersModal()" class="absolute inset-0 bg-espresso/50 backdrop-blur-[2px]"></div>
+        
+        <div class="relative bg-cream w-full max-w-2xl max-h-[90vh] shadow-2xl border border-espresso/15 flex flex-col overflow-hidden animate-fade-in">
+            <div class="p-6 border-b border-espresso/10 flex items-center justify-between">
+                <div>
+                    <span class="text-[10px] uppercase tracking-[0.2em] text-bronze">Client Account</span>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-normal text-espresso">Order Details</h2>
+                </div>
+                <button onclick="closeOrdersModal()" class="p-1.5 text-espresso/60 hover:text-espresso transition">
+                    <i data-lucide="x" class="w-5 h-5 stroke-[1.5]"></i>
+                </button>
+            </div>
+
+            <div id="order-tabs-bar" class="px-6 pt-4 flex items-center gap-4 border-b border-espresso/10 overflow-x-auto no-scrollbar">
+                <!-- Populated dynamically -->
+            </div>
+
+            <div id="order-details-body" class="p-6 overflow-y-auto space-y-6">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 hidden bg-espresso text-cream px-5 py-3 shadow-lg text-xs tracking-wider">
+        <span id="toast-message">Updated</span>
+    </div>
+
+    <!-- ==========================================
+         JAVASCRIPT APPLICATION LOGIC
+    =========================================== -->
+    <script>
+        const heroSlides = [
+            {
+                tag: "Handcrafted in Jaipur",
+                title: "Timeless Elegance Collection",
+                desc: "Heirloom 18k gold-vermeil pieces and hand-loomed silhouettes made in small studio batches.",
+                image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=1400&q=85"
+            },
+            {
+                tag: "Chanderi & Mulmul Edit",
+                title: "Frost & Fabulous Silhouettes",
+                desc: "Breathable hand-spun cotton-silk tunics and relaxed layers tailored for effortless dressing.",
+                image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1400&q=85"
+            },
+            {
+                tag: "Khurja Stoneware",
+                title: "Discover the Joy of Growing",
+                desc: "Wheel-thrown matte ceramic planters and terracotta vessels fired in small batches.",
+                image: "https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?auto=format&fit=crop&w=1400&q=85"
+            }
+        ];
+        let currentSlide = 0;
+
+        function setHeroSlide(index) {
+            currentSlide = index;
+            const slide = heroSlides[currentSlide];
+            document.getElementById('hero-tag').textContent = slide.tag;
+            document.getElementById('hero-title').textContent = slide.title;
+            document.getElementById('hero-desc').textContent = slide.desc;
+            document.getElementById('hero-image').src = slide.image;
+
+            document.querySelectorAll('.hero-dot').forEach((dot, idx) => {
+                if (idx === currentSlide) {
+                    dot.classList.remove('w-4', 'bg-espresso/25');
+                    dot.classList.add('w-8', 'bg-espresso');
+                } else {
+                    dot.classList.remove('w-8', 'bg-espresso');
+                    dot.classList.add('w-4', 'bg-espresso/25');
+                }
+            });
+        }
+
+        function nextHeroSlide() {
+            setHeroSlide((currentSlide + 1) % heroSlides.length);
+        }
+
+        function prevHeroSlide() {
+            setHeroSlide((currentSlide - 1 + heroSlides.length) % heroSlides.length);
+        }
+
+        const products = [
+            {
+                id: 1,
+                name: "Agate Allure Gold Earrings",
+                category: "jewelry",
+                price: 2499,
+                originalPrice: 3199,
+                image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                id: 2,
+                name: "Pearl Cascade Choker",
+                category: "jewelry",
+                price: 4299,
+                originalPrice: 5399,
+                image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                id: 3,
+                name: "Budha Bliss Cotton Tunic",
+                category: "fashion",
+                price: 2799,
+                originalPrice: 3499,
+                image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                id: 4,
+                name: "Matte Ceramic Planter Trio",
+                category: "decor",
+                price: 1899,
+                originalPrice: 2399,
+                image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                id: 5,
+                name: "Rose Quartz Drop Hoops",
+                category: "jewelry",
+                price: 1999,
+                originalPrice: 2499,
+                image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                id: 6,
+                name: "Amber Raw Silk Shirt",
+                category: "fashion",
+                price: 3150,
+                originalPrice: 3900,
+                image: "https://images.unsplash.com/photo-1551163943-3f6a855d1153?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                id: 7,
+                name: "Terracotta Herb Vessel",
+                category: "decor",
+                price: 1599,
+                originalPrice: 1999,
+                image: "https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+                id: 8,
+                name: "Solstice Hammered Cuff",
+                category: "jewelry",
+                price: 2250,
+                originalPrice: 2800,
+                image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=700&q=80"
+            }
+        ];
+
+        let cart = [
+            { ...products[0], qty: 1 },
+            { ...products[2], qty: 1 }
+        ];
+        let appliedPromo = null;
+        let currentCategory = 'all';
+
+        let orders = [
+            {
+                orderId: "AUR-89421",
+                date: "24 Nov 2026, 04:15 PM",
+                status: "Out for Delivery",
+                statusStep: 3,
+                customer: {
+                    name: "Aarav Sharma",
+                    phone: "+91 98765 43210",
+                    address: "B-42, Greater Kailash Part II, New Delhi - 110048"
+                },
+                paymentMethod: "UPI Instant Pay",
+                paymentStatus: "Paid",
+                subtotal: 4299,
+                discount: 500,
+                total: 3799,
+                items: [
+                    { name: "Pearl Cascade Choker", price: 4299, qty: 1, image: products[1].image }
+                ]
+            }
+        ];
+        let activeOrderIndex = 0;
+
+        function renderProducts(list = products) {
+            const grid = document.getElementById('product-grid');
+            if (list.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-xs uppercase tracking-widest text-espresso/50">No pieces found.</div>`;
+                return;
+            }
+
+            grid.innerHTML = list.map(product => `
+                <div class="group flex flex-col">
+                    <div class="relative aspect-[3/4] overflow-hidden bg-sand mb-4">
+                        <img src="${product.image}" 
+                             onerror="this.src='https://placehold.co/500x650/EFE9DE/1E1B18?text=${encodeURIComponent(product.name)}'"
+                             alt="${product.name}" 
+                             class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-700">
+                        
+                        <button onclick="addToCart(${product.id})" class="absolute inset-x-0 bottom-0 bg-espresso/95 text-cream py-3 text-[11px] uppercase tracking-[0.18em] opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                            + Add to Bag
+                        </button>
+                    </div>
+                    <div class="flex items-start justify-between gap-2">
+                        <div>
+                            <h3 class="font-serif text-lg font-normal text-espresso leading-snug">${product.name}</h3>
+                            <p class="text-[11px] uppercase tracking-widest text-espresso/45 mt-0.5">${product.category}</p>
+                        </div>
+                        <div class="text-right shrink-0">
+                            <span class="text-xs font-medium text-espresso">₹${product.price.toLocaleString('en-IN')}</span>
+                            <span class="block text-[11px] text-espresso/40 line-through">₹${product.originalPrice.toLocaleString('en-IN')}</span>
+                        </div>
+                    </div>
+                    <button onclick="addToCart(${product.id})" class="sm:hidden mt-3 w-full py-2 border border-espresso/20 text-[11px] uppercase tracking-widest text-espresso">
+                        Add to Bag
+                    </button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function filterByCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-pill').forEach(btn => {
+                const label = btn.textContent.toLowerCase();
+                const isMatch = (cat === 'all' && label === 'all') ||
+                                (cat === 'jewelry' && label === 'jewelry') ||
+                                (cat === 'fashion' && label === 'attire') ||
+                                (cat === 'decor' && label === 'objects');
+                if (isMatch) {
+                    btn.classList.remove('border-transparent', 'text-espresso/50');
+                    btn.classList.add('border-espresso', 'text-espresso', 'font-medium');
+                } else {
+                    btn.classList.remove('border-espresso', 'text-espresso', 'font-medium');
+                    btn.classList.add('border-transparent', 'text-espresso/50');
+                }
+            });
+            filterProducts();
+        }
+
+        function filterProducts(overrideQuery) {
+            const query = (overrideQuery !== undefined ? overrideQuery : document.getElementById('search-input').value).toLowerCase().trim();
+            const filtered = products.filter(p => {
+                const matchesCat = currentCategory === 'all' || p.category === currentCategory;
+                const matchesQuery = p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query);
+                return matchesCat && matchesQuery;
+            });
+            renderProducts(filtered);
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            updateCartUI();
+            showToast(`Added to bag — ${product.name}`);
+        }
+
+        function updateQty(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) {
+                cart = cart.filter(i => i.id !== productId);
+            }
+            updateCartUI();
+        }
+
+        function copyCoupon(code) {
+            const tempInput = document.createElement('input');
+            tempInput.value = code;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            document.getElementById('coupon-input').value = code;
+            applyPromoCode();
+            showToast(`Code ${code} applied`);
+        }
+
+        function applyPromoCode() {
+            const input = document.getElementById('coupon-input').value.trim().toUpperCase();
+            const feedback = document.getElementById('coupon-feedback');
+            feedback.classList.remove('hidden', 'text-bronze', 'text-red-700');
+
+            if (input === 'FIRST20') {
+                appliedPromo = { code: 'FIRST20', type: 'percent', value: 20 };
+                feedback.textContent = 'FIRST20 applied (20% off)';
+                feedback.classList.add('text-bronze');
+            } else if (input === 'FESTIVE500') {
+                appliedPromo = { code: 'FESTIVE500', type: 'flat', value: 500 };
+                feedback.textContent = 'FESTIVE500 applied (₹500 off)';
+                feedback.classList.add('text-bronze');
+            } else if (input === 'LUXEGIFT') {
+                appliedPromo = { code: 'LUXEGIFT', type: 'flat', value: 300 };
+                feedback.textContent = 'LUXEGIFT applied (₹300 off)';
+                feedback.classList.add('text-bronze');
+            } else {
+                appliedPromo = null;
+                feedback.textContent = 'Invalid code. Try FIRST20 or FESTIVE500.';
+                feedback.classList.add('text-red-700');
+            }
+            updateCartUI();
+        }
+
+        function calculateTotals() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let discount = 0;
+            if (appliedPromo && subtotal > 0) {
+                if (appliedPromo.type === 'percent') {
+                    discount = Math.round(subtotal * (appliedPromo.value / 100));
+                } else {
+                    discount = Math.min(subtotal, appliedPromo.value);
+                }
+            }
+            const shipping = subtotal === 0 || subtotal >= 1999 ? 0 : 149;
+            const total = Math.max(0, subtotal - discount + shipping);
+            return { subtotal, discount, shipping, total };
+        }
+
+        function updateCartUI() {
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cart-count-badge').textContent = totalQty;
+
+            const container = document.getElementById('cart-items-container');
+            const proceedBtn = document.getElementById('proceed-checkout-btn');
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-14 space-y-2">
+                        <p class="font-serif text-xl text-espresso">Your bag is empty</p>
+                        <p class="text-xs text-espresso/50">Select pieces from the catalog to continue.</p>
+                    </div>
+                `;
+                proceedBtn.disabled = true;
+                proceedBtn.classList.add('opacity-40', 'cursor-not-allowed');
+            } else {
+                proceedBtn.disabled = false;
+                proceedBtn.classList.remove('opacity-40', 'cursor-not-allowed');
+                container.innerHTML = cart.map(item => `
+                    <div class="flex items-center gap-4 py-4">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-20 object-cover bg-sand">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-serif text-base text-espresso truncate">${item.name}</h4>
+                            <p class="text-xs text-espresso/60 mt-0.5">₹${item.price.toLocaleString('en-IN')}</p>
+                            <div class="inline-flex items-center border border-espresso/20 mt-2">
+                                <button onclick="updateQty(${item.id}, -1)" class="w-6 h-6 flex items-center justify-center text-xs hover:bg-sand">-</button>
+                                <span class="px-2.5 text-xs">${item.qty}</span>
+                                <button onclick="updateQty(${item.id}, 1)" class="w-6 h-6 flex items-center justify-center text-xs hover:bg-sand">+</button>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs font-medium text-espresso">₹${(item.price * item.qty).toLocaleString('en-IN')}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const { subtotal, discount, shipping, total } = calculateTotals();
+            document.getElementById('summary-subtotal').textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+            document.getElementById('summary-shipping').textContent = shipping === 0 ? 'Complimentary' : `₹${shipping}`;
+            
+            const discountRow = document.getElementById('discount-row');
+            if (discount > 0) {
+                discountRow.classList.remove('hidden');
+                document.getElementById('summary-discount').textContent = `-₹${discount.toLocaleString('en-IN')}`;
+            } else {
+                discountRow.classList.add('hidden');
+            }
+            document.getElementById('summary-total').textContent = `₹${total.toLocaleString('en-IN')}`;
+            lucide.createIcons();
+        }
+
+        function toggleCartDrawer(open) {
+            const overlay = document.getElementById('cart-overlay');
+            if (open) {
+                overlay.classList.remove('hidden');
+                switchCheckoutStep('bag');
+            } else {
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function switchCheckoutStep(step) {
+            if (step === 'checkout' && cart.length === 0) return;
+
+            const bagView = document.getElementById('step-bag-view');
+            const checkoutView = document.getElementById('step-checkout-view');
+            const bagBtn = document.getElementById('bag-footer-btn');
+            const checkoutBtn = document.getElementById('checkout-footer-btn');
+            const tabBag = document.getElementById('step-tab-bag');
+            const tabCheckout = document.getElementById('step-tab-checkout');
+            const title = document.getElementById('drawer-title');
+
+            if (step === 'bag') {
+                title.textContent = 'Shopping Bag';
+                bagView.classList.remove('hidden');
+                checkoutView.classList.add('hidden');
+                bagBtn.classList.remove('hidden');
+                checkoutBtn.classList.add('hidden');
+
+                tabBag.classList.replace('border-transparent', 'border-espresso');
+                tabBag.classList.replace('text-espresso/45', 'text-espresso');
+                tabCheckout.classList.replace('border-espresso', 'border-transparent');
+                tabCheckout.classList.replace('text-espresso', 'text-espresso/45');
+            } else {
+                title.textContent = 'Checkout';
+                bagView.classList.add('hidden');
+                checkoutView.classList.remove('hidden');
+                bagBtn.classList.add('hidden');
+                checkoutBtn.classList.remove('hidden');
+
+                tabCheckout.classList.replace('border-transparent', 'border-espresso');
+                tabCheckout.classList.replace('text-espresso/45', 'text-espresso');
+                tabBag.classList.replace('border-espresso', 'border-transparent');
+                tabBag.classList.replace('text-espresso', 'text-espresso/45');
+            }
+        }
+
+        function placeOrder(event) {
+            event.preventDefault();
+            if (cart.length === 0) return;
+
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const address = document.getElementById('cust-address').value;
+            const city = document.getElementById('cust-city').value;
+            const pin = document.getElementById('cust-pin').value;
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+            const { subtotal, discount, total } = calculateTotals();
+            const newOrderId = 'AUR-' + Math.floor(10000 + Math.random() * 90000);
+            const now = new Date();
+            const formattedDate = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' + now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+            const newOrder = {
+                orderId: newOrderId,
+                date: formattedDate,
+                status: "Confirmed",
+                statusStep: 1,
+                customer: {
+                    name,
+                    phone,
+                    address: `${address}, ${city} - ${pin}`
+                },
+                paymentMethod,
+                paymentStatus: paymentMethod.includes('Cash') ? 'Pay on Delivery' : 'Paid',
+                subtotal,
+                discount,
+                total,
+                items: cart.map(item => ({
+                    name: item.name,
+                    price: item.price,
+                    qty: item.qty,
+                    image: item.image
+                }))
+            };
+
+            orders.unshift(newOrder);
+            activeOrderIndex = 0;
+
+            cart = [];
+            appliedPromo = null;
+            document.getElementById('coupon-input').value = '';
+            document.getElementById('coupon-feedback').classList.add('hidden');
+            updateCartUI();
+
+            toggleCartDrawer(false);
+            openOrdersModal();
+            showToast(`Order #${newOrderId} confirmed`);
+        }
+
+        function openOrdersModal() {
+            document.getElementById('orders-modal').classList.remove('hidden');
+            renderOrderDetails();
+        }
+
+        function closeOrdersModal() {
+            document.getElementById('orders-modal').classList.add('hidden');
+        }
+
+        function selectOrderTab(index) {
+            activeOrderIndex = index;
+            renderOrderDetails();
+        }
+
+        function renderOrderDetails() {
+            const tabsBar = document.getElementById('order-tabs-bar');
+            const body = document.getElementById('order-details-body');
+
+            tabsBar.innerHTML = orders.map((ord, idx) => `
+                <button onclick="selectOrderTab(${idx})" class="pb-3 text-xs uppercase tracking-widest whitespace-nowrap border-b transition ${idx === activeOrderIndex ? 'border-espresso text-espresso font-medium' : 'border-transparent text-espresso/45 hover:text-espresso'}">
+                    #${ord.orderId}
+                </button>
+            `).join('');
+
+            const order = orders[activeOrderIndex];
+            const steps = ['Confirmed', 'Shipped', 'Out for Delivery', 'Delivered'];
+
+            body.innerHTML = `
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-espresso/10">
+                    <div>
+                        <span class="font-serif text-2xl text-espresso">Order #${order.orderId}</span>
+                        <p class="text-xs text-espresso/55 mt-1">${order.date} — <span class="text-bronze font-medium">${order.status}</span></p>
+                    </div>
+                    <div class="sm:text-right">
+                        <p class="text-[10px] uppercase tracking-widest text-espresso/50">Total</p>
+                        <p class="font-serif text-2xl text-espresso">₹${order.total.toLocaleString('en-IN')}</p>
+                    </div>
+                </div>
+
+                <!-- Linear Progress Stepper -->
+                <div class="py-2">
+                    <div class="grid grid-cols-4 gap-2">
+                        ${steps.map((label, idx) => {
+                            const completed = (idx + 1) <= order.statusStep;
+                            return `
+                                <div class="space-y-2">
+                                    <div class="h-[2px] w-full ${completed ? 'bg-espresso' : 'bg-espresso/15'}"></div>
+                                    <p class="text-[11px] ${completed ? 'text-espresso font-medium' : 'text-espresso/40'}">${label}</p>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+
+                <!-- Address & Payment -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 py-4 border-y border-espresso/10">
+                    <div class="space-y-1">
+                        <span class="text-[10px] uppercase tracking-[0.18em] text-bronze">Delivery Address</span>
+                        <p class="text-xs font-medium text-espresso">${order.customer.name}</p>
+                        <p class="text-xs text-espresso/65 leading-relaxed">${order.customer.address}</p>
+                        <p class="text-xs text-espresso/55">${order.customer.phone}</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <span class="text-[10px] uppercase tracking-[0.18em] text-bronze">Payment</span>
+                        <p class="text-xs font-medium text-espresso">${order.paymentMethod}</p>
+                        <p class="text-xs text-espresso/65">${order.paymentStatus}</p>
+                        <p class="text-[11px] text-espresso/50 pt-1">
+                            Subtotal: ₹${order.subtotal.toLocaleString('en-IN')} • Discount: -₹${order.discount.toLocaleString('en-IN')}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Purchased Items -->
+                <div class="space-y-3">
+                    <h4 class="text-[10px] uppercase tracking-[0.18em] text-espresso/55">Items (${order.items.length})</h4>
+                    <div class="divide-y divide-espresso/10">
+                        ${order.items.map(item => `
+                            <div class="flex items-center justify-between py-3">
+                                <div class="flex items-center gap-3.5">
+                                    <img src="${item.image}" alt="${item.name}" class="w-12 h-14 object-cover bg-sand">
+                                    <div>
+                                        <p class="font-serif text-base text-espresso">${item.name}</p>
+                                        <p class="text-xs text-espresso/55">Qty ${item.qty} × ₹${item.price.toLocaleString('en-IN')}</p>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-medium text-espresso">₹${(item.price * item.qty).toLocaleString('en-IN')}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = msg;
+            toast.classList.remove('hidden');
+            clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2800);
+        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            updateCartUI();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
